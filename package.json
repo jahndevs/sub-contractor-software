@@ -1,0 +1,16 @@
+{
+  "name": "sub-contractor-software",
+  "version": "1.0.0",
+  "description": "A sub-contractor software that handles project management.",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
+    "format": "prettier --write \"packages/**/*.{ts,tsx,js,jsx,json,md}\"",
+    "format:check": "prettier --check \"packages/**/*.{ts,tsx,js,jsx,json,md}\""
+  },
+  "packageManager": "pnpm@10.28.1",
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "prettier": "^3.8.1"
+  }
+}
