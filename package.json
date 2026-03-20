@@ -1,6 +1,6 @@
 {
   "name": "sub-contractor-software",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A sub-contractor software that handles project management.",
   "private": true,
   "scripts": {
