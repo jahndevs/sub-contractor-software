@@ -10,10 +10,9 @@ import { trpc } from './trpc/client';
 import { rootRoute } from './routes/__root';
 import { indexRoute } from './routes/index';
 import { signInRoute } from './routes/sign-in';
-import { signUpRoute } from './routes/sign-up';
 import { dashboardRoute } from './routes/dashboard';
 
-const routeTree = rootRoute.addChildren([indexRoute, signInRoute, signUpRoute, dashboardRoute]);
+const routeTree = rootRoute.addChildren([indexRoute, signInRoute, dashboardRoute]);
 
 const router = createRouter({ routeTree });
 
@@ -57,9 +56,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       publishableKey={import.meta.env.VITE_CLERK_PUBLISHABLE_KEY}
       afterSignOutUrl="/sign-in"
       signInUrl="/sign-in"
-      signUpUrl="/sign-up"
+      signUpUrl="/sign-in"
+      signInFallbackRedirectUrl="/"
+      signUpFallbackRedirectUrl="/"
       routerPush={(to) => router.navigate({ to })}
-      routerReplace={(to) => router.navigate({ to })}
+      routerReplace={(to) => router.navigate({ to, replace: true })}
     >
       <ChakraProvider value={defaultSystem}>
         <TRPCProvider>

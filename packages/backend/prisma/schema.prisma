@@ -13,3 +13,8 @@ model User {
   name      String?
   createdAt DateTime @default(now())
 }
+
+model Organization {
+  id        String      @id
+  createdAt DateTime.   @default(now())
+}
