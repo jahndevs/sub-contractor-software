@@ -2,6 +2,7 @@ import { Box, Flex, HStack, Text, Avatar, Menu, Portal } from '@chakra-ui/react'
 import { useClerk } from '@clerk/react';
 import { useNavigate } from '@tanstack/react-router';
 import { SearchBar } from './SearchBar';
+import { ColorModeButton } from '@/components/ui/color-mode';
 
 export function Navbar() {
   const { signOut } = useClerk();
@@ -24,11 +25,15 @@ export function Navbar() {
       py={3}
     >
       <Flex align="center" justify="space-between" maxW="container.xl" mx="auto">
-        <Text fontWeight="bold" fontSize="lg">
-          Software (Demo)
-        </Text>
-        <HStack gap={4}>
+        <HStack gap={20}>
+          <Text fontWeight="bold" fontSize="lg">
+            Software (Demo)
+          </Text>
           <SearchBar />
+        </HStack>
+        <HStack gap={4}>
+          <ColorModeButton />
+          <Text>{import.meta.env.VITE_USER_NAME}</Text>
           <Menu.Root positioning={{ placement: 'bottom-end' }}>
             <Menu.Trigger asChild>
               <Box

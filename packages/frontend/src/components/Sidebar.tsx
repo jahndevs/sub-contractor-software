@@ -9,8 +9,8 @@ type NavItem = {
 };
 
 const navItems: NavItem[] = [
-  { label: 'Overview',  id: 'overview',  icon: LayoutDashboard },
-  { label: 'Projects',  id: 'projects',  icon: FolderKanban },
+  { label: 'Overview', id: 'overview', icon: LayoutDashboard },
+  { label: 'Jobs', id: 'jobs', icon: FolderKanban },
   { label: 'Notebooks', id: 'notebooks', icon: BookOpen },
 ];
 
