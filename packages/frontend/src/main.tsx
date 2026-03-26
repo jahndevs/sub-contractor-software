@@ -73,7 +73,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       routerReplace={(to) => router.navigate({ to, replace: true })}
     >
       <ChakraProvider value={defaultSystem}>
-        <ColorModeProvider>
+        <ColorModeProvider forcedTheme="light">
           <TRPCProvider>
             <RouterProvider router={router} />
             <Toaster />
