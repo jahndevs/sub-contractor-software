@@ -1,4 +1,5 @@
 {
   "buildCommand": "pnpm --filter frontend build",
-  "outputDirectory": "packages/frontend/dist"
+  "outputDirectory": "packages/frontend/dist",
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }
