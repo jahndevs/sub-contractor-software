@@ -1,14 +1,17 @@
 import { Box, Flex, Text, VStack, IconButton, Tooltip } from '@chakra-ui/react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { LayoutDashboard, FolderKanban, BookOpen } from 'lucide-react';
 
 type NavItem = {
   label: string;
   id: string;
+  icon: React.ElementType;
 };
 
 const navItems: NavItem[] = [
-  { label: 'Overview', id: 'overview' },
-  { label: 'Projects', id: 'projects' },
+  { label: 'Overview',  id: 'overview',  icon: LayoutDashboard },
+  { label: 'Projects',  id: 'projects',  icon: FolderKanban },
+  { label: 'Notebooks', id: 'notebooks', icon: BookOpen },
 ];
 
 type SidebarProps = {
@@ -64,13 +67,10 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
               onClick={() => onTabChange(item.id)}
               justify={collapsed ? 'center' : 'flex-start'}
             >
-              {/* placeholder */}
-              <Box
-                w="4"
-                h="4"
-                borderRadius="sm"
-                bg={isActive ? 'gray.400' : 'gray.300'}
-                flexShrink={0}
+              <item.icon
+                size={16}
+                color={isActive ? '#1a202c' : '#718096'}
+                style={{ flexShrink: 0 }}
               />
               {!collapsed && (
                 <Text
@@ -90,7 +90,9 @@ export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
             return (
               <Tooltip.Root key={item.id} positioning={{ placement: 'right' }}>
                 <Tooltip.Trigger asChild>{navRow}</Tooltip.Trigger>
-                <Tooltip.Content>{item.label}</Tooltip.Content>
+                <Tooltip.Positioner>
+                  <Tooltip.Content>{item.label}</Tooltip.Content>
+                </Tooltip.Positioner>
               </Tooltip.Root>
             );
           }
