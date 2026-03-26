@@ -5,8 +5,8 @@ import { Box, Card, Text } from '@chakra-ui/react';
 import { useNavigate } from '@tanstack/react-router';
 import { rootRoute } from './__root';
 import { CredentialsStep } from '@/components/auth/CredentialsStep';
-import { NameStep } from '@/components/auth/NameStep';
 import { VerifyStep } from '@/components/auth/VerifyStep';
+import { toaster } from '@/components/ui/toaster';
 
 export const signInRoute = createRoute({
   getParentRoute: () => rootRoute,
@@ -14,10 +14,10 @@ export const signInRoute = createRoute({
   component: SignInPage,
 });
 
-type Step = 'credentials' | 'name' | 'verify';
+type Step = 'credentials' | 'verify';
 
 function SignInPage() {
-  const { signIn, errors, fetchStatus } = useSignIn();
+  const { signIn } = useSignIn();
   const { signUp } = useSignUp();
   const { setActive } = useClerk();
   const { isLoaded, isSignedIn } = useAuth();
@@ -30,8 +30,7 @@ function SignInPage() {
   const [firstName, setFirstName] = useState('');
   const [code, setCode] = useState('');
   const [error, setError] = useState('');
-
-  const isLoading = fetchStatus === 'fetching';
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (isLoaded && isSignedIn) {
@@ -41,19 +40,22 @@ function SignInPage() {
 
   const handleSubmit = async () => {
     setError('');
+    setIsLoading(true);
     const { error } = await signIn.password({ emailAddress: email, password });
+    setIsLoading(false);
     if (error) {
       if ((error as any).errors?.[0]?.code === 'form_identifier_not_found') {
         setIsSigningUp(true);
-        setStep('name');
         return;
       }
-      setError(error.message);
+      const msg = (error as any).errors?.[0]?.longMessage ?? error.message;
+      setError(msg);
+      toaster.create({ description: msg, type: 'error' });
       return;
     }
 
     if (signIn.status === 'complete') {
-      await signIn.finalize();
+      await setActive({ session: signIn.createdSessionId });
       navigate({ to: '/dashboard' });
     } else if (signIn.status === 'needs_second_factor' || signIn.status === 'needs_client_trust') {
       const emailCodeFactor = signIn.supportedSecondFactors?.find(
@@ -68,14 +70,21 @@ function SignInPage() {
 
   const handleCreateAccount = async () => {
     setError('');
+    setIsLoading(true);
     const { error: pwError } = await signUp.password({ emailAddress: email, password, firstName });
     if (pwError) {
-      setError(pwError.message);
+      setIsLoading(false);
+      const msg = (pwError as any).errors?.[0]?.longMessage ?? pwError.message;
+      setError(msg);
+      toaster.create({ description: msg, type: 'error' });
       return;
     }
     const { error: sendError } = await signUp.verifications.sendEmailCode();
+    setIsLoading(false);
     if (sendError) {
-      setError(sendError.message);
+      const msg = (sendError as any).errors?.[0]?.longMessage ?? sendError.message;
+      setError(msg);
+      toaster.create({ description: msg, type: 'error' });
       return;
     }
     setStep('verify');
@@ -83,10 +92,14 @@ function SignInPage() {
 
   const handleVerify = async () => {
     setError('');
+    setIsLoading(true);
     if (isSigningUp) {
       const { error } = await signUp.verifications.verifyEmailCode({ code });
+      setIsLoading(false);
       if (error) {
-        setError(error.message);
+        const msg = (error as any).errors?.[0]?.longMessage ?? error.message;
+        setError(msg);
+        toaster.create({ description: msg, type: 'error' });
         return;
       }
       if (signUp.status === 'complete') {
@@ -97,19 +110,29 @@ function SignInPage() {
     }
 
     const { error } = await signIn.mfa.verifyEmailCode({ code });
+    setIsLoading(false);
     if (error) {
-      setError(error.message);
+      const msg = (error as any).errors?.[0]?.longMessage ?? error.message;
+      setError(msg);
+      toaster.create({ description: msg, type: 'error' });
       return;
     }
-    await signIn.finalize();
-    navigate({ to: '/dashboard' });
+    if (signIn.status === 'complete') {
+      await setActive({ session: signIn.createdSessionId });
+      navigate({ to: '/dashboard' });
+    }
   };
 
-  const handleResend = () => {
-    if (isSigningUp) {
-      signUp.verifications.sendEmailCode();
-    } else {
-      signIn.mfa.sendEmailCode();
+  const handleResend = async () => {
+    try {
+      if (isSigningUp) {
+        await signUp.verifications.sendEmailCode();
+      } else {
+        await signIn.mfa.sendEmailCode();
+      }
+      toaster.create({ description: 'Code resent', type: 'success' });
+    } catch {
+      toaster.create({ description: 'Failed to resend code', type: 'error' });
     }
   };
 
@@ -117,7 +140,6 @@ function SignInPage() {
 
   const headerContent = {
     credentials: { title: 'Welcome!', description: 'Sign in or create an account.' },
-    name: { title: 'One more thing', description: 'What should we call you?' },
     verify: {
       title: isSigningUp ? 'Almost there!' : 'Verify your account',
       description: `We sent a code to ${email}`,
@@ -137,19 +159,15 @@ function SignInPage() {
             <CredentialsStep
               email={email}
               password={password}
-              errors={errors.fields}
+              firstName={firstName}
+              showNameField={isSigningUp}
+              errors={{}}
               isLoading={isLoading}
               onEmailChange={setEmail}
               onPasswordChange={setPassword}
-              onSubmit={handleSubmit}
-            />
-          )}
-          {step === 'name' && (
-            <NameStep
-              firstName={firstName}
-              isLoading={isLoading}
               onFirstNameChange={setFirstName}
-              onSubmit={handleCreateAccount}
+              onSubmit={handleSubmit}
+              onCreateAccount={handleCreateAccount}
             />
           )}
           {step === 'verify' && (
@@ -169,6 +187,8 @@ function SignInPage() {
           )}
         </Card.Body>
       </Card.Root>
+
+      {/* Required for sign-up flows — Clerk bot protection */}
       <div id="clerk-captcha" />
     </Box>
   );

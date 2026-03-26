@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import ReactDOM from 'react-dom/client';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
+import { Toaster } from '@/components/ui/toaster';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import superjson from 'superjson';
@@ -65,6 +66,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <ChakraProvider value={defaultSystem}>
         <TRPCProvider>
           <RouterProvider router={router} />
+          <Toaster />
         </TRPCProvider>
       </ChakraProvider>
     </ClerkProvider>

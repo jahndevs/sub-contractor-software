@@ -14,7 +14,7 @@ export function VerifyStep({ isLoading, onCodeComplete, onVerify, onResend, code
     <>
       <Field.Root>
         <Field.Label>Verification code</Field.Label>
-        <PinInput.Root onValueComplete={(e) => onCodeComplete(e.valueAsString)}>
+        <PinInput.Root onValueComplete={(e) => onCodeComplete(e.valueAsString)} disabled={isLoading}>
           <PinInput.HiddenInput />
           <PinInput.Control>
             <PinInput.Input index={0} />
@@ -36,7 +36,7 @@ export function VerifyStep({ isLoading, onCodeComplete, onVerify, onResend, code
       >
         Verify
       </Button>
-      <Button w="full" variant="ghost" size="sm" onClick={onResend}>
+      <Button w="full" variant="ghost" size="sm" onClick={onResend} disabled={isLoading} loading={isLoading}>
         Resend code
       </Button>
     </>
