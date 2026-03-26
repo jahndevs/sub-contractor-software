@@ -1,0 +1,5 @@
+{
+  "buildCommand": "npm install --prefix packages/frontend && npm run build --prefix packages/frontend",
+  "outputDirectory": "packages/frontend/dist",
+  "installCommand": "echo 'skip'"
+}
