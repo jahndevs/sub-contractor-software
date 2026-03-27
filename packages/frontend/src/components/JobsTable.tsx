@@ -14,16 +14,106 @@ type Job = {
 };
 
 const jobs: Job[] = [
-  { name: 'Northgate Substation Upgrade', contractValue: 1200000, spentJTD: 820000, claimedPct: 68, forecastAtCompletion: 1185000, variance: 15000, manHours: 6240, status: 'On Track' },
-  { name: 'Riverdale Solar Farm – Civil', contractValue: 2450000, spentJTD: 1980000, claimedPct: 81, forecastAtCompletion: 2610000, variance: -160000, manHours: 14800, status: 'Over Budget' },
-  { name: 'Westfield Retail Fitout', contractValue: 680000, spentJTD: 210000, claimedPct: 31, forecastAtCompletion: 670000, variance: 10000, manHours: 1920, status: 'On Track' },
-  { name: 'CBD Tower – Level 18–22 Electrical', contractValue: 3100000, spentJTD: 2750000, claimedPct: 89, forecastAtCompletion: 3240000, variance: -140000, manHours: 21600, status: 'Over Budget' },
-  { name: 'Harbour Bridge Maintenance', contractValue: 540000, spentJTD: 90000, claimedPct: 17, forecastAtCompletion: 535000, variance: 5000, manHours: 720, status: 'On Track' },
-  { name: 'Eastern Freeway Lighting', contractValue: 890000, spentJTD: 445000, claimedPct: 50, forecastAtCompletion: 910000, variance: -20000, manHours: 3800, status: 'At Risk' },
-  { name: 'Greenfield Data Centre – Fit-out', contractValue: 1750000, spentJTD: 620000, claimedPct: 35, forecastAtCompletion: 1720000, variance: 30000, manHours: 5100, status: 'On Track' },
-  { name: 'Port Logistics Hub – Stage 2', contractValue: 4200000, spentJTD: 3800000, claimedPct: 90, forecastAtCompletion: 4380000, variance: -180000, manHours: 28400, status: 'Over Budget' },
-  { name: 'Southern Ring Road – Signalling', contractValue: 960000, spentJTD: 310000, claimedPct: 32, forecastAtCompletion: 950000, variance: 10000, manHours: 2600, status: 'On Track' },
-  { name: 'Metro Station – Platform Upgrade', contractValue: 1480000, spentJTD: 880000, claimedPct: 59, forecastAtCompletion: 1530000, variance: -50000, manHours: 7200, status: 'At Risk' },
+  {
+    name: 'Northgate Substation Upgrade',
+    contractValue: 1200000,
+    spentJTD: 820000,
+    claimedPct: 68,
+    forecastAtCompletion: 1185000,
+    variance: 15000,
+    manHours: 6240,
+    status: 'On Track',
+  },
+  {
+    name: 'Riverdale Solar Farm – Civil',
+    contractValue: 2450000,
+    spentJTD: 1980000,
+    claimedPct: 81,
+    forecastAtCompletion: 2610000,
+    variance: -160000,
+    manHours: 14800,
+    status: 'Over Budget',
+  },
+  {
+    name: 'Westfield Retail Fitout',
+    contractValue: 680000,
+    spentJTD: 210000,
+    claimedPct: 31,
+    forecastAtCompletion: 670000,
+    variance: 10000,
+    manHours: 1920,
+    status: 'On Track',
+  },
+  {
+    name: 'CBD Tower – Level 18–22 Electrical',
+    contractValue: 3100000,
+    spentJTD: 2750000,
+    claimedPct: 89,
+    forecastAtCompletion: 3240000,
+    variance: -140000,
+    manHours: 21600,
+    status: 'Over Budget',
+  },
+  {
+    name: 'Harbour Bridge Maintenance',
+    contractValue: 540000,
+    spentJTD: 90000,
+    claimedPct: 17,
+    forecastAtCompletion: 535000,
+    variance: 5000,
+    manHours: 720,
+    status: 'On Track',
+  },
+  {
+    name: 'Eastern Freeway Lighting',
+    contractValue: 890000,
+    spentJTD: 445000,
+    claimedPct: 50,
+    forecastAtCompletion: 910000,
+    variance: -20000,
+    manHours: 3800,
+    status: 'At Risk',
+  },
+  {
+    name: 'Greenfield Data Centre – Fit-out',
+    contractValue: 1750000,
+    spentJTD: 620000,
+    claimedPct: 35,
+    forecastAtCompletion: 1720000,
+    variance: 30000,
+    manHours: 5100,
+    status: 'On Track',
+  },
+  {
+    name: 'Port Logistics Hub – Stage 2',
+    contractValue: 4200000,
+    spentJTD: 3800000,
+    claimedPct: 90,
+    forecastAtCompletion: 4380000,
+    variance: -180000,
+    manHours: 28400,
+    status: 'Over Budget',
+  },
+  {
+    name: 'Southern Ring Road – Signalling',
+    contractValue: 960000,
+    spentJTD: 310000,
+    claimedPct: 32,
+    forecastAtCompletion: 950000,
+    variance: 10000,
+    manHours: 2600,
+    status: 'On Track',
+  },
+  {
+    name: 'Metro Station – Platform Upgrade',
+    contractValue: 1480000,
+    spentJTD: 880000,
+    claimedPct: 59,
+    forecastAtCompletion: 1530000,
+    variance: -50000,
+    manHours: 7200,
+    status: 'At Risk',
+  },
 ];
 
 type SortKey = keyof Job;
@@ -31,8 +121,7 @@ type SortDir = 'asc' | 'desc';
 
 const PAGE_SIZE = 5;
 
-const fmtCurrency = (n: number) =>
-  (n < 0 ? '-$' : '+$') + Math.abs(n).toLocaleString();
+const fmtCurrency = (n: number) => (n < 0 ? '-$' : '+$') + Math.abs(n).toLocaleString();
 
 const fmtMoney = (n: number) => '$' + n.toLocaleString();
 
@@ -55,7 +144,15 @@ const columns: Column[] = [
   { label: 'Status', key: 'status', align: 'center' },
 ];
 
-function SortIcon({ col, sortKey, sortDir }: { col: SortKey; sortKey: SortKey | null; sortDir: SortDir | null }) {
+function SortIcon({
+  col,
+  sortKey,
+  sortDir,
+}: {
+  col: SortKey;
+  sortKey: SortKey | null;
+  sortDir: SortDir | null;
+}) {
   if (col !== sortKey) return <FiChevronDown size={12} opacity={0.3} />;
   return sortDir === 'asc' ? <FiChevronUp size={12} /> : <FiChevronDown size={12} />;
 }
@@ -89,7 +186,8 @@ export function JobsTable() {
     return [...filtered].sort((a, b) => {
       const av = a[sortKey];
       const bv = b[sortKey];
-      const cmp = typeof av === 'string' ? av.localeCompare(bv as string) : (av as number) - (bv as number);
+      const cmp =
+        typeof av === 'string' ? av.localeCompare(bv as string) : (av as number) - (bv as number);
       return sortDir === 'asc' ? cmp : -cmp;
     });
   }, [filtered, sortKey, sortDir]);
@@ -104,7 +202,10 @@ export function JobsTable() {
         size="sm"
         maxW="320px"
         value={search}
-        onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setPage(1);
+        }}
       />
 
       <Table.Root size="sm" variant="outline" striped>
@@ -119,7 +220,16 @@ export function JobsTable() {
                 onClick={() => handleSort(col.key)}
                 _hover={{ bg: 'bg.subtle' }}
               >
-                <HStack gap={1} justify={col.align === 'right' ? 'flex-end' : col.align === 'center' ? 'center' : 'flex-start'}>
+                <HStack
+                  gap={1}
+                  justify={
+                    col.align === 'right'
+                      ? 'flex-end'
+                      : col.align === 'center'
+                        ? 'center'
+                        : 'flex-start'
+                  }
+                >
                   <Text>{col.label}</Text>
                   <SortIcon col={col.key} sortKey={sortKey} sortDir={sortDir} />
                 </HStack>
@@ -162,10 +272,17 @@ export function JobsTable() {
 
       <HStack justify="space-between">
         <Text fontSize="sm" color="gray.500">
-          {sorted.length === 0 ? 'No results' : `${(page - 1) * PAGE_SIZE + 1}–${Math.min(page * PAGE_SIZE, sorted.length)} of ${sorted.length}`}
+          {sorted.length === 0
+            ? 'No results'
+            : `${(page - 1) * PAGE_SIZE + 1}–${Math.min(page * PAGE_SIZE, sorted.length)} of ${sorted.length}`}
         </Text>
         <HStack gap={2}>
-          <Button size="xs" variant="outline" disabled={page === 1} onClick={() => setPage(page - 1)}>
+          <Button
+            size="xs"
+            variant="outline"
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
+          >
             Previous
           </Button>
           {Array.from({ length: totalPages }, (_, i) => (
@@ -178,7 +295,12 @@ export function JobsTable() {
               {i + 1}
             </Button>
           ))}
-          <Button size="xs" variant="outline" disabled={page === totalPages} onClick={() => setPage(page + 1)}>
+          <Button
+            size="xs"
+            variant="outline"
+            disabled={page === totalPages}
+            onClick={() => setPage(page + 1)}
+          >
             Next
           </Button>
         </HStack>
