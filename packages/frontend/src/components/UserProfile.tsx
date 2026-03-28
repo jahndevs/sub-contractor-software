@@ -49,7 +49,7 @@ export function UserProfile({ onClose }: UserProfileProps) {
                   <Button variant="outline" size="sm">
                     Upload Picture
                   </Button>
-                  <Button variant="outline" size="sm">
+                  <Button colorPalette="red" variant="outline" size="sm">
                     Delete
                   </Button>
                 </Box>
