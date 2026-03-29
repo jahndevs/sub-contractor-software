@@ -3,6 +3,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 type AgingRow = {
   label: string;
   percent: number;
+  value?: string;
 };
 
 type FooterRow = {
@@ -52,16 +53,21 @@ export function AgingTable({ title, rows, footer }: AgingTableProps) {
                 borderRadius="full"
               />
             </Box>
-            <Text
-              fontSize="xs"
-              fontWeight="semibold"
-              color={textColor(row.label, row.percent)}
-              w="10"
-              textAlign="right"
-              flexShrink={0}
-            >
-              {row.percent.toFixed(1)}%
-            </Text>
+            <Box w="20" flexShrink={0} textAlign="right">
+              {row.value && (
+                <Text fontSize="xs" fontWeight="semibold" color={textColor(row.label, row.percent)} lineHeight="tight">
+                  {row.value}
+                </Text>
+              )}
+              <Text
+                fontSize="xs"
+                fontWeight={row.value ? 'normal' : 'semibold'}
+                color={row.value ? 'gray.400' : textColor(row.label, row.percent)}
+                lineHeight="tight"
+              >
+                {row.percent.toFixed(1)}%
+              </Text>
+            </Box>
           </Flex>
         ))}
       </Box>

@@ -3,7 +3,6 @@ import { SearchBar } from './SearchBar';
 import { ColorModeButton } from '@/components/ui/color-mode';
 import { UserMenu } from './UserMenu';
 import { SyncStatus } from './SyncStatus';
-import { BsRobot } from 'react-icons/bs';
 
 export function Navbar() {
   return (
@@ -24,9 +23,6 @@ export function Navbar() {
           </Text>
           <HStack gap={1}>
             <SearchBar />
-            <IconButton aria-label="AI" variant="ghost" size="sm">
-              <BsRobot />
-            </IconButton>
           </HStack>
         </HStack>
         <HStack gap={4}>

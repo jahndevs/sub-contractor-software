@@ -101,10 +101,10 @@ function DashboardPage() {
                 <AgingTable
                   title="Accounts Receivable — Aged"
                   rows={[
-                    { label: '<30 days', percent: 7.0 },
-                    { label: '31 – 60', percent: 0.0 },
-                    { label: '61 – 90', percent: 1.7 },
-                    { label: '91+ days', percent: 91.3 },
+                    { label: '<30 days', percent: 7.0, value: '$19,206' },
+                    { label: '31 – 60', percent: 0.0, value: '$0' },
+                    { label: '61 – 90', percent: 1.7, value: '$4,664' },
+                    { label: '91+ days', percent: 91.3, value: '$250,494' },
                   ]}
                   footer={[
                     { label: 'Total A/R', value: '$274,364' },
@@ -114,10 +114,10 @@ function DashboardPage() {
                 <AgingTable
                   title="Accounts Payable — Aged"
                   rows={[
-                    { label: '<30 days', percent: 0.0 },
-                    { label: '31 – 60', percent: 0.0 },
-                    { label: '61 – 90', percent: 0.0 },
-                    { label: '91+ days', percent: 100.0 },
+                    { label: '<30 days', percent: 0.0, value: '$0' },
+                    { label: '31 – 60', percent: 0.0, value: '$0' },
+                    { label: '61 – 90', percent: 0.0, value: '$0' },
+                    { label: '91+ days', percent: 100.0, value: '$168,490' },
                   ]}
                   footer={[
                     { label: 'Total A/P', value: '$168,490' },
