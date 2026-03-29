@@ -1,105 +1,132 @@
-import { Box, Flex, Text, VStack, IconButton, Tooltip } from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { LayoutDashboard, FolderKanban, BookOpen } from 'lucide-react';
+import { Box, Flex, Text, IconButton, Input } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Send, Bot, ChevronLeft, ChevronRight } from 'lucide-react';
 
-type NavItem = {
-  label: string;
-  id: string;
-  icon: React.ElementType;
+type Message = {
+  id: number;
+  role: 'user' | 'assistant';
+  content: string;
 };
 
-const navItems: NavItem[] = [
-  { label: 'Overview', id: 'overview', icon: LayoutDashboard },
-  { label: 'Jobs', id: 'jobs', icon: FolderKanban },
-  { label: 'Notebooks', id: 'notebooks', icon: BookOpen },
-];
-
-type SidebarProps = {
-  activeTab: string;
-  onTabChange: (id: string) => void;
-};
-
-export function Sidebar({ activeTab, onTabChange }: SidebarProps) {
+export function Sidebar() {
   const [collapsed, setCollapsed] = useState(false);
+  const [input, setInput] = useState('');
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: 0,
+      role: 'assistant',
+      content: "Hi! I'm your AI assistant. Ask me anything about your jobs, revenue, or reports.",
+    },
+  ]);
+
+  function handleSend() {
+    const trimmed = input.trim();
+    if (!trimmed) return;
+    setMessages((prev) => [...prev, { id: prev.length, role: 'user', content: trimmed }]);
+    setInput('');
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === 'Enter') handleSend();
+  }
 
   return (
     <Box
       as="aside"
-      w={collapsed ? '14' : '56'}
+      w={collapsed ? '10' : '72'}
       flexShrink={0}
       bg="white"
       borderRightWidth="1px"
       borderColor="gray.200"
-      py={4}
-      px={collapsed ? 2 : 3}
+      display="flex"
+      flexDirection="column"
       h="full"
-      transition="width 0.2s ease, padding 0.2s ease"
+      transition="width 0.2s ease"
       overflow="hidden"
     >
-      {/* Toggle button */}
-      <Flex justify={collapsed ? 'center' : 'flex-end'} mb={4}>
+      {/* Header */}
+      <Flex
+        align="center"
+        px={collapsed ? 0 : 4}
+        py={3}
+        borderBottomWidth="1px"
+        borderColor="gray.200"
+        justify={collapsed ? 'center' : 'space-between'}
+        gap={2}
+      >
+        {!collapsed && (
+          <Flex align="center" gap={2}>
+            <Bot size={16} color="#718096" />
+            <Text fontSize="sm" fontWeight="semibold" color="gray.700">
+              AI Assistant
+            </Text>
+            <Text fontSize="xs" color="gray.400">
+              (coming soon)
+            </Text>
+          </Flex>
+        )}
         <IconButton
-          aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          aria-label={collapsed ? 'Expand chat' : 'Collapse chat'}
           variant="ghost"
           size="sm"
           onClick={() => setCollapsed((c) => !c)}
         >
-          <Text fontSize="xs" fontWeight="bold" color="gray.500">
-            {collapsed ? '›' : '‹'}
-          </Text>
+          {collapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </IconButton>
       </Flex>
 
-      <VStack align="stretch" gap={1}>
-        {navItems.map((item) => {
-          const isActive = activeTab === item.id;
+      {/* Messages */}
+      {!collapsed && (
+        <>
+          <Box
+            flex="1"
+            overflowY="auto"
+            px={4}
+            py={4}
+            display="flex"
+            flexDirection="column"
+            gap={3}
+          >
+            {messages.map((msg) => (
+              <Box
+                key={msg.id}
+                alignSelf={msg.role === 'user' ? 'flex-end' : 'flex-start'}
+                maxW="85%"
+                bg={msg.role === 'user' ? 'blue.500' : 'gray.100'}
+                color={msg.role === 'user' ? 'white' : 'gray.800'}
+                px={3}
+                py={2}
+                borderRadius="lg"
+                fontSize="sm"
+              >
+                {msg.content}
+              </Box>
+            ))}
+          </Box>
 
-          const navRow = (
-            <Flex
-              key={item.id}
-              align="center"
-              px={3}
-              py={2}
+          {/* Input */}
+          <Flex px={3} py={3} borderTopWidth="1px" borderColor="gray.200" gap={2} align="center">
+            <Input
+              placeholder="Ask a question..."
+              size="sm"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
               borderRadius="md"
-              cursor="pointer"
-              bg={isActive ? 'gray.100' : 'transparent'}
-              _hover={{ bg: isActive ? 'gray.100' : 'gray.50' }}
-              onClick={() => onTabChange(item.id)}
-              justify={collapsed ? 'center' : 'flex-start'}
+              flex="1"
+            />
+            <IconButton
+              aria-label="Send message"
+              size="sm"
+              colorScheme="blue"
+              onClick={handleSend}
+              disabled={!input.trim()}
             >
-              <item.icon
-                size={16}
-                color={isActive ? '#1a202c' : '#718096'}
-                style={{ flexShrink: 0 }}
-              />
-              {!collapsed && (
-                <Text
-                  ml={3}
-                  fontSize="sm"
-                  fontWeight={isActive ? 'semibold' : 'normal'}
-                  color={isActive ? 'gray.900' : 'gray.600'}
-                  whiteSpace="nowrap"
-                >
-                  {item.label}
-                </Text>
-              )}
-            </Flex>
-          );
-
-          if (collapsed) {
-            return (
-              <Tooltip.Root key={item.id} positioning={{ placement: 'right' }}>
-                <Tooltip.Trigger asChild>{navRow}</Tooltip.Trigger>
-                <Tooltip.Positioner>
-                  <Tooltip.Content>{item.label}</Tooltip.Content>
-                </Tooltip.Positioner>
-              </Tooltip.Root>
-            );
-          }
-
-          return navRow;
-        })}
-      </VStack>
+              <Send size={14} />
+            </IconButton>
+          </Flex>
+        </>
+      )}
     </Box>
   );
 }

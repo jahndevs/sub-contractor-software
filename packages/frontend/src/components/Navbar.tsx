@@ -2,6 +2,7 @@ import { Box, Flex, HStack, IconButton, Text } from '@chakra-ui/react';
 import { SearchBar } from './SearchBar';
 import { ColorModeButton } from '@/components/ui/color-mode';
 import { UserMenu } from './UserMenu';
+import { SyncStatus } from './SyncStatus';
 import { BsRobot } from 'react-icons/bs';
 
 export function Navbar() {
@@ -29,6 +30,7 @@ export function Navbar() {
           </HStack>
         </HStack>
         <HStack gap={4}>
+          <SyncStatus />
           <ColorModeButton />
           <Text>{import.meta.env.VITE_USER_NAME}</Text>
           <UserMenu />
