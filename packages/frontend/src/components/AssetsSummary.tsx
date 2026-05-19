@@ -17,8 +17,8 @@ const rows: AssetRow[] = [
 
 export function AssetsSummary() {
   return (
-    <Box bg="white" borderRadius="xl" borderWidth="1px" borderColor="gray.200" boxShadow="sm" overflow="hidden">
-      <Box px={5} py={4} borderBottomWidth="1px" borderColor="gray.100">
+    <Box bg="bg.widget" borderRadius="xl" borderWidth="1px" borderColor="border" boxShadow="sm" overflow="hidden">
+      <Box px={5} py={4} borderBottomWidth="1px" borderColor="border.subtle">
         <Text fontSize="sm" fontWeight="semibold" color="gray.700">Assets Summary</Text>
       </Box>
 

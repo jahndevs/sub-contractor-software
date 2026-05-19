@@ -11,7 +11,8 @@ export function Navbar() {
       position="sticky"
       top={0}
       zIndex="sticky"
-      bg="bg.subtle"
+      bg="bg.nav"
+      color="text.nav"
       borderBottomWidth="1px"
       px={6}
       py={3}
@@ -19,7 +20,7 @@ export function Navbar() {
       <Flex align="center" justify="space-between" maxW="container.xl" mx="auto">
         <HStack gap={20}>
           <Text fontWeight="bold" fontSize="lg">
-            Software (Demo)
+            Contract Pro (Version 0.0.1)
           </Text>
           <HStack gap={1}>
             <SearchBar />

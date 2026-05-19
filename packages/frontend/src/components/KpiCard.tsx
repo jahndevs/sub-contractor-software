@@ -24,10 +24,10 @@ export function KpiCard({ label, value, valueColor, subtext, trend }: KpiCardPro
 
   return (
     <Box
-      bg="white"
+      bg="bg.widget"
       borderRadius="xl"
       borderWidth="1px"
-      borderColor="gray.200"
+      borderColor="border"
       boxShadow="sm"
       px={5}
       pt={5}
@@ -35,7 +35,7 @@ export function KpiCard({ label, value, valueColor, subtext, trend }: KpiCardPro
       display="flex"
       flexDirection="column"
       gap={2}
-      _hover={{ boxShadow: 'md', borderColor: 'gray.300' }}
+      _hover={{ boxShadow: 'md', borderColor: 'border.subtle' }}
       transition="box-shadow 0.15s ease, border-color 0.15s ease"
     >
       <Text fontSize="xs" fontWeight="medium" color="gray.400" letterSpacing="wide" textTransform="uppercase">

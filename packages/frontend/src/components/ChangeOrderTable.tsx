@@ -8,9 +8,9 @@ const rows = [
 
 export function ChangeOrderTable() {
   return (
-    <Box bg="white" borderRadius="xl" borderWidth="1px" borderColor="gray.200" boxShadow="sm" overflow="hidden">
+    <Box bg="bg.widget" borderRadius="xl" borderWidth="1px" borderColor="border" boxShadow="sm" overflow="hidden">
       {/* Header */}
-      <Box px={5} py={4} borderBottomWidth="1px" borderColor="gray.100">
+      <Box px={5} py={4} borderBottomWidth="1px" borderColor="border.subtle">
         <Text fontSize="sm" fontWeight="semibold" color="gray.700">Change Orders</Text>
       </Box>
 

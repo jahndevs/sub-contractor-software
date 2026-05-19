@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { ChakraProvider, defaultSystem } from '@chakra-ui/react';
 import { ColorModeProvider } from '@/components/ui/color-mode';
 import { Toaster } from '@/components/ui/toaster';
+import theme from './theme';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import superjson from 'superjson';
@@ -54,7 +55,7 @@ function TRPCProvider({ children }: { children: React.ReactNode }) {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <ChakraProvider value={defaultSystem}>
+    <ChakraProvider theme={theme} value={defaultSystem}>
       <ColorModeProvider>{children}</ColorModeProvider>
     </ChakraProvider>
   );
@@ -72,7 +73,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       routerPush={(to) => router.navigate({ to })}
       routerReplace={(to) => router.navigate({ to, replace: true })}
     >
-      <ChakraProvider value={defaultSystem}>
+      <ChakraProvider theme={theme} value={defaultSystem}>
         <ColorModeProvider forcedTheme="light">
           <TRPCProvider>
             <RouterProvider router={router} />

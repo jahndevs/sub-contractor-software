@@ -5,6 +5,7 @@ import { Box, Text } from '@chakra-ui/react';
 import { rootRoute } from './__root';
 import { Navbar } from '../components/Navbar';
 import { Sidebar } from '../components/Sidebar';
+import { Sidebar2 } from '@/components/SideBar_2';
 import { KpiCard } from '../components/KpiCard';
 import { RevenueVsCostChart } from '../components/RevenueVsCostChart';
 import { JobsTable } from '../components/JobsTable';
@@ -67,7 +68,7 @@ function DashboardPage() {
         section: 'financial',
         colSpan: 6,
         content: (
-          <Box bg="white" borderRadius="xl" boxShadow="sm" p={5} borderWidth="1px" borderColor="gray.200">
+          <Box bg="bg.widget" borderRadius="xl" boxShadow="sm" p={5} borderWidth="1px" borderColor="border">
             <Text fontSize="sm" fontWeight="semibold" mb={4} color="gray.700">
               Monthly Revenue vs. Cost (Last 12 Months)
             </Text>
@@ -208,8 +209,9 @@ function DashboardPage() {
   return (
     <Box display="flex" flexDirection="column" alignItems="stretch" h="100vh" overflow="hidden">
       <Navbar />
-      <Box display="flex" flex="1" minHeight={0}>
-        <Sidebar />
+      <Box display="flex" flex="1" minHeight={0} bg="bg.dashboard">
+        {/* <Sidebar /> */}
+        <Sidebar2 />
         <Box flex="1" overflowY="auto" px={8} py={6}>
           <DashboardGrid sections={sections} widgets={widgets} />
         </Box>
